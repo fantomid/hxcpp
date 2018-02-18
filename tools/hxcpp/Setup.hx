@@ -223,6 +223,29 @@ class Setup
       return str.split(" ")[1]=="raspberrypi";
    }
 
+   public static function isPandoraHandheld()
+   {
+      var result = false;
+      var isEof = false;
+      var proc = new Process("cat",["/proc/cpuinfo"]);
+      while (!isEof) {
+         try {
+            var line = proc.stdout.readLine();
+            var elts = line.split(":");
+            if (elts[0].indexOf("Hardware") != -1) {
+               if (elts[1].indexOf("Pandora") != -1)
+                 result = true;
+               break;
+            }
+         }
+         catch (e : haxe.io.Eof) {
+            isEof = true;
+         }
+      }
+      proc.close();
+      return result;
+   }
+
    static public function startPdbServer()
    {
       var oldPath = Sys.getCwd();

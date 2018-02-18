@@ -64,6 +64,7 @@ class BuildTool
    public static var isWindows = false;
    public static var isLinux = false;
    public static var isRPi = false;
+   public static var isPandora = false;
    public static var isMac = false;
    public static var targetKey:String;
    public static var instance:BuildTool;
@@ -1462,6 +1463,7 @@ class BuildTool
 
 
       isRPi = isLinux && Setup.isRaspberryPi();
+      isPandora = isLinux && Setup.isPandoraHandheld();
 
       is64 = getIs64();
       var dirtyList = new Array<String>();
@@ -1856,6 +1858,13 @@ class BuildTool
          defines.set("rpi","1");
          defines.set("hardfp","1");
          defines.set("BINDIR", "RPi");
+      }
+      else if ( isPandora )
+      {
+         defines.set("toolchain","pandora");
+         defines.set("pandora","pandora");
+         defines.set("BINDIR", "Pandora");
+         m64 = false;
       }
       else if ( (new EReg("linux","i")).match(os) )
       {

@@ -1,0 +1,94 @@
+<xml>
+
+<set name="PANDORA_SDK" value="/mnt/utmp/codeblocks" unless="PANDORA_SDK" if="linux_host" />
+<set name="noM32" value="1"/>
+<set name="noM64" value="1"/>
+<include name="gcc-toolchain.xml"/>
+
+
+<!-- Pandora -------------------------------------------------->
+	
+<compiler id="pandora" exe="g++" if="pandora">
+	<flag value="-c"/>
+	<flag value="-g" if="debug"/>
+	<flag value="-O2" unless="debug"/>
+	<flag value="-I${HXCPP}/include"/>
+	<flag value="-I${PANDORA_SDK}/usr/include"/>
+	<flag value="-DPANDORA"/>
+	<flag value="-D_APP_LOG"/>
+	<flag value="-pipe" />
+	<flag value="-mcpu=cortex-a8" />
+	<flag value="-mfpu=neon" />
+	<flag value="-ftree-vectorize" />
+	<flag value="-mfloat-abi=softfp" />
+	<flag value="-fsingle-precision-constant" />
+	<flag value="-fdiagnostics-color=auto" />
+	<flag value="-fuse-ld=gold" />
+	<flag value="-fuse-linker-plugin" />
+	<flag value="-fsigned-char" />
+	<flag value="-mneon-for-64bits" />
+	<flag value="-mvectorize-with-neon-double" />
+  <include name="common-defines.xml" />
+	<flag value="-fvisibility=hidden"/>
+	<flag value="-fdollars-in-identifiers"/>
+	<flag value="-fpic"/>
+	<flag value="-fPIC"/>
+	<cppflag value="-frtti"/>
+  <cppflag value="-Wno-invalid-offsetof" />
+  <flag value="-DHX_LINUX"/>
+  <flag value="-Wno-overflow" />
+	<outflag value="-o"/>
+	<objdir value="./obj/pandora${OBJEXT}" />
+</compiler>
+
+<linker id="exe" exe="g++" if="pandora">
+	<flag value="-g" if="debug"/>
+	<flag value="-O2" unless="debug"/>
+	<flag value="-s" unless="debug"/>
+	<flag value="-pie" />
+	<lib name="-lpthread" />
+	<flag value="-pipe" />
+	<flag value="-mcpu=cortex-a8" />
+	<flag value="-mfpu=neon" />
+	<flag value="-ftree-vectorize" />
+	<flag value="-mfloat-abi=softfp" />
+	<flag value="-fsingle-precision-constant" />
+	<flag value="-fdiagnostics-color=auto" />
+	<flag value="-fuse-ld=gold" />
+	<flag value="-fuse-linker-plugin" />
+	<flag value="-fsigned-char" />
+	<flag value="-mneon-for-64bits" />
+	<flag value="-mvectorize-with-neon-double" />
+	<flag value="-L${PANDORA_SDK}/usr/lib" />
+	<ext value=""/>
+	<outflag value="-o"/>
+	<lib name="-ldl"/>
+</linker>
+	
+<linker id="dll" exe="g++" if="pandora">
+	<flag value="-shared"/>
+	<flag value="-g" if="debug"/>
+	<flag value="-O2" unless="debug"/>
+	<flag value="-s" unless="debug"/>
+	<lib name="-lpthread" />
+	<flag value="-pipe" />
+	<flag value="-mcpu=cortex-a8" />
+	<flag value="-mfpu=neon" />
+	<flag value="-ftree-vectorize" />
+	<flag value="-mfloat-abi=softfp" />
+	<flag value="-fsingle-precision-constant" />
+	<flag value="-fdiagnostics-color=auto" />
+	<flag value="-fuse-ld=gold" />
+	<flag value="-fuse-linker-plugin" />
+	<flag value="-fsigned-char" />
+	<flag value="-mneon-for-64bits" />
+	<flag value="-mvectorize-with-neon-double" />
+	<flag value="-L${PANDORA_SDK}/usr/lib" />
+	<cppflag value="-frtti"/>
+	<lib name="-ldl"/>
+	<ext value=".so"/>
+	<outflag value="-o"/>
+</linker>
+
+
+</xml>
